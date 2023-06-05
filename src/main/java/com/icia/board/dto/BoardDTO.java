@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardDTO {
     private Long id;
     private String boardWriter;
@@ -16,7 +19,6 @@ public class BoardDTO {
     private String boardContents;
     private LocalDateTime createdAt;
     private int boardHits;
-
 
     public static BoardDTO toDTO(BoardEntity boardEntity) {
         BoardDTO boardDTO = new BoardDTO();
@@ -28,6 +30,14 @@ public class BoardDTO {
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setCreatedAt(boardEntity.getCreatedAt());
         return boardDTO;
-
+//        return BoardDTO.builder()
+//                .id(boardEntity.getId())
+//                .boardWriter(boardEntity.getBoardWriter())
+//                .boardPass(boardEntity.getBoardPass())
+//                .boardTitle(boardEntity.getBoardTitle())
+//                .boardContents(boardEntity.getBoardContents())
+//                .boardHits(boardEntity.getBoardHits())
+//                .createdAt(boardEntity.getCreatedAt())
+//                .build();
     }
 }

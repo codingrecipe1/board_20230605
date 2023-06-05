@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,35 @@ public class BoardService {
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
-        for (BoardEntity boardEntity: boardEntityList) {
+//        for (BoardEntity boardEntity: boardEntityList) {
+//            boardDTOList.add(BoardDTO.toDTO(boardEntity));
+//        }
+        boardEntityList.forEach(boardEntity -> {
             boardDTOList.add(BoardDTO.toDTO(boardEntity));
-        }
+        });
         return boardDTOList;
     }
+
+    public void updateHits(Long id) {
+        boardRepository.updateHits(id);
+    }
+
+    public BoardDTO findById(Long id) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return BoardDTO.toDTO(boardEntity);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
