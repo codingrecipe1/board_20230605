@@ -1,11 +1,11 @@
 package com.icia.board.dto;
 
+import com.icia.board.util.UtilClass;
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.entity.BoardFileEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class BoardDTO {
     private String boardPass;
     private String boardTitle;
     private String boardContents;
-    private LocalDateTime createdAt;
+    private String createdAt;
     private int boardHits;
 
     private List<MultipartFile> boardFile;
@@ -37,7 +37,7 @@ public class BoardDTO {
         boardDTO.setBoardTitle(boardEntity.getBoardTitle());
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
-        boardDTO.setCreatedAt(boardEntity.getCreatedAt());
+        boardDTO.setCreatedAt(UtilClass.dateFormat(boardEntity.getCreatedAt()));
 
         // 파일 여부에 따른 코드 추가
         if (boardEntity.getFileAttached() == 1) {

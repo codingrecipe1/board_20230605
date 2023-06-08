@@ -20,6 +20,7 @@ public class CommentController {
 
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody CommentDTO commentDTO) {
+        System.out.println("commentDTO = " + commentDTO);
         try {
             commentService.save(commentDTO);
             List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
