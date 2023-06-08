@@ -3,6 +3,7 @@ package com.icia.board.entity;
 import com.icia.board.dto.CommentDTO;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
