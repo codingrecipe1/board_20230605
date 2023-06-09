@@ -129,7 +129,9 @@
     const list_req = () => {
         // location.href = "/board/";
         const page = [[${page}]];
-        location.href = "/board?page=" + page;
+        const type = [[${type}]];
+        const q = [[${q}]];
+        location.href = "/board?page=" + page + "&type=" + type + "&q=" + q;
     }
 
     const req = (type) => {

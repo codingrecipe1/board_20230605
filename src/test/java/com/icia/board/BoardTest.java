@@ -119,7 +119,7 @@ public class BoardTest {
     @DisplayName("검색 기능 테스트")
     public void searchTest() {
 //        List<BoardEntity> boardEntityList = boardRepository.findByBoardTitleContaining("5");
-        String q = "30";
+        String q = "";
         List<BoardEntity> boardEntityList = boardRepository.findByBoardTitleContainingOrBoardWriterContainingOrderByIdDesc(q, q);
         boardEntityList.forEach(boardEntity -> {
             System.out.println(BoardDTO.toDTO(boardEntity));
