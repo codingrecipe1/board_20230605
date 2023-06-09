@@ -5,7 +5,12 @@ import com.icia.board.entity.BoardEntity;
 import com.icia.board.entity.BoardFileEntity;
 import com.icia.board.repository.BoardFileRepository;
 import com.icia.board.repository.BoardRepository;
+import com.icia.board.util.UtilClass;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +40,7 @@ public class BoardService {
             BoardEntity boardEntity = BoardEntity.toSaveEntityWithFile(boardDTO);
             BoardEntity savedEntity = boardRepository.save(boardEntity);
             // 2. 파일이름 꺼내고, 저장용 이름 만들고 파일 로컬에 저장
-            for (MultipartFile boardFile: boardDTO.getBoardFile()) {
+            for (MultipartFile boardFile : boardDTO.getBoardFile()) {
                 String originalFileName = boardFile.getOriginalFilename();
                 String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
                 String savePath = "D:\\springboot_img\\" + storedFileName;
@@ -81,6 +86,21 @@ public class BoardService {
     public void update(BoardDTO boardDTO) {
         BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
         boardRepository.save(boardEntity);
+    }
+
+    public Page<BoardDTO> paging(Pageable pageable) {
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 5;
+        Page<BoardEntity> boardEntities =
+                boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+        Page<BoardDTO> boardDTOS = boardEntities.map(boardEntity -> BoardDTO.builder()
+                                                    .id(boardEntity.getId())
+                                                    .boardTitle(boardEntity.getBoardTitle())
+                                                    .boardWriter(boardEntity.getBoardWriter())
+                                                    .createdAt(UtilClass.dateFormat(boardEntity.getCreatedAt()))
+                                                    .boardHits(boardEntity.getBoardHits())
+                                                    .build());
+        return boardDTOS;
     }
 }
 
