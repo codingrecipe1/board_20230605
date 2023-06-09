@@ -51,7 +51,11 @@ public class BoardController {
                          Model model) {
         System.out.println("page = " + pageable.getPageNumber());
         Page<BoardDTO> boardDTOS = boardService.paging(pageable, type, q);
-        model.addAttribute("boardList", boardDTOS);
+        if (boardDTOS.getTotalElements() == 0) {
+            model.addAttribute("boardList", null);
+        } else {
+            model.addAttribute("boardList", boardDTOS);
+        }
         // 시작페이지(startPage), 마지막페이지(endPage)값 계산
         // 하단에 보여줄 페이지 갯수 3개
         int blockLimit = 3;
